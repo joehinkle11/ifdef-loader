@@ -43,7 +43,11 @@ export = function(source: string, map) {
       source = parse(source, data, verbose, tripleSlash, filePath, fillWithBlanks, uncommentPrefix);
       this.callback(null, source, map);
    } catch(err) {
-      const errorMessage = `ifdef-loader error: ${err}`;
+      let errorMessage = `ifdef-loader error: ${err}`;
+      const resourcePath = this.resourcePath;
+      if (typeof resourcePath === "string") {
+         errorMessage = errorMessage + " in " + resourcePath;
+      }
       this.callback(new Error(errorMessage));
    }
 };
